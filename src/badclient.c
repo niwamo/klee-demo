@@ -28,9 +28,7 @@ int main(int argc, char *argv[]) {
 
   const char *msg_ptr = (char *)(packet + 5);
   memcpy(packet + 5, message, actual_len);
-  printf("Measured length: %lu", strlen(msg_ptr));
 
-  // Standard Socket Setup
   if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
     printf("\n Socket creation error \n");
     return -1;
