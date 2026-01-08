@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 
-void process_packet(unsigned char *data, ssize_t size) {
+void process_message(unsigned char *data, ssize_t size) {
   if (size < 5)
     return;
 
@@ -13,6 +13,9 @@ void process_packet(unsigned char *data, ssize_t size) {
   uint32_t msg_len;
   memcpy(&msg_len, data + 1, sizeof(uint32_t));
   msg_len = ntohl(msg_len);
+  // cap message size at 16384
+  msg_len = (msg_len > 16384) ? 16384 : msg_len;
+
   char msg[msg_len + 1];
 
   printf("Processing Message Type %02x of len %d\n", type, msg_len);
@@ -24,6 +27,7 @@ void process_packet(unsigned char *data, ssize_t size) {
   printf("Message: %s\n", msg);
 }
 
+#ifndef TEST
 int main() {
   int server_fd, new_socket;
   struct sockaddr_in address;
@@ -45,8 +49,9 @@ int main() {
   while ((new_socket = accept(server_fd, (struct sockaddr *)&address,
                               (socklen_t *)&addrlen))) {
     ssize_t valread = read(new_socket, buffer, 8192);
-    process_packet(buffer, valread);
+    process_message(buffer, valread);
     close(new_socket);
   }
   return 0;
 }
+#endif

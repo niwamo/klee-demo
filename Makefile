@@ -17,7 +17,10 @@ $(CLIENT_TARGET): $(SRC_DIR)/$(CLIENT_TARGET).c
 $(BADCLIENT_TARGET): $(SRC_DIR)/$(BADCLIENT_TARGET).c
 	$(CC) $(CFLAGS) -o ./build/$(BADCLIENT_TARGET) $(SRC_DIR)/$(BADCLIENT_TARGET).c
 
+fuzzer:
+	clang -g -fsanitize=address,fuzzer src/server.c tests/fuzz.c -o build/fuzzer-demo -DTEST
+
 clean:
-	rm -f $(SERVER_TARGET) $(CLIENT_TARGET)
+	rm -f ./build/*
 
 .PHONY: all clean
