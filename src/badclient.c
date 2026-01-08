@@ -21,12 +21,10 @@ int main(int argc, char *argv[]) {
   size_t actual_len = strlen(argv[2]);
 
   unsigned char packet[actual_len + 5];
-  packet[0] = 0x01; // Plaintext message type
+  packet[0] = 0x01;
 
   uint32_t net_len = htonl(msg_len);
   memcpy(packet + 1, &net_len, sizeof(uint32_t));
-
-  const char *msg_ptr = (char *)(packet + 5);
   memcpy(packet + 5, message, actual_len);
 
   if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
