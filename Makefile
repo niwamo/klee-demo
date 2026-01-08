@@ -1,0 +1,19 @@
+CC = gcc
+CFLAGS = -Wall -g
+SRC_DIR = src
+
+SERVER_TARGET = server
+CLIENT_TARGET = client
+
+all: $(SERVER_TARGET) $(CLIENT_TARGET)
+
+$(SERVER_TARGET): $(SRC_DIR)/$(SERVER_TARGET).c
+	$(CC) $(CFLAGS) -o ./build/$(SERVER_TARGET) $(SRC_DIR)/$(SERVER_TARGET).c
+
+$(CLIENT_TARGET): $(SRC_DIR)/$(CLIENT_TARGET).c
+	$(CC) $(CFLAGS) -o ./build/$(CLIENT_TARGET) $(SRC_DIR)/$(CLIENT_TARGET).c
+
+clean:
+	rm -f $(SERVER_TARGET) $(CLIENT_TARGET)
+
+.PHONY: all clean
