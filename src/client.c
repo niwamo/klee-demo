@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
   size_t msg_len = strlen(message);
 
   unsigned char packet[msg_len];
-  packet[0] = 0x01; // Plaintext message type
+  packet[0] = 0x01;
 
   uint32_t net_len = htonl(msg_len);
   memcpy(packet + 1, &net_len, sizeof(uint32_t));
@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
   }
 
   send(sock, packet, 5 + msg_len, 0);
-  printf("Packet sent: Type=0x01, Len=%zu, Comment='%s'\n", msg_len, message);
+  printf("Message sent (Type=0x01, Len=%zu)\n", msg_len);
 
   close(sock);
   return 0;
